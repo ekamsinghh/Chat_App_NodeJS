@@ -13,16 +13,13 @@ app.use('/',express.static(__dirname+'/public'));
 io.on('connection',(socket) => {
     console.log("A user connected");
 
-    setInterval(()=>{
-        socket.emit("from_server");
-    },2000);
 
-    socket.on("from_client",()=>{
-        console.log("Recieved Message from client");
-    });
-
-    socket.on("btn_click",()=>{
-        console.log("Button clicked");
+    socket.on("btn_click",(data)=>{
+        console.log(data);
+        io.emit("data recieved",data);
+        //* io.emit will emit it to the every websocket connection on the server
+        //* whereas socket.emit will emit it to the specific socket that is connected to the server
+        //* socket.broadcast.emit will emit it to all the sockets except the one that is connected
     })
 });
 
